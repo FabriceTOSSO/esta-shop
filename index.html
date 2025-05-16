@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esta Shop - Parfums d'exception</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* === CSS GLOBAL === */
+        :root {
+            --couleur-primaire: #b78d65;
+            --couleur-secondaire: #2a2a2a;
+            --couleur-texte: #333;
+            --couleur-fond: #faf6f2;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--couleur-texte);
+            background-color: var(--couleur-fond);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* === HEADER === */
+        header {
+            padding: 30px 0 20px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            letter-spacing: 3px;
+            color: var(--couleur-secondaire);
+            margin-bottom: 10px;
+        }
+        
+        /* === PAGE ACCUEIL === */
+        .hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(rgba(250,246,242,0.1), rgba(250,246,242,0.1)), 
+                        url('https://imgs.search.brave.com/t7omVOkJRV3KEOALS2EeOxr2mOYpmiBYYfR-usSxfD4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/b3Ntb3ouZnIvUHVi/bGljL0ZpbGVzL2Fy/dGljbGUvcGFyZnVt/X2FwaHJvZGlzaWFx/dWVfNTFjMjE2MmQ3/Ni5qcGc');
+            background-size: cover;
+            background-position: center;
+            margin: 20px 0;
+            border-radius: 10px;
+            position: relative;
+            min-height: 6vh;
+        }
+        
+        .hero-content {
+            max-width: 700px;
+            animation: fadeIn 1s ease-out;
+            padding: 30px;
+            background-color: rgba(246, 239, 239, 0.3);
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .slogan {
+            font-size: clamp(1.5rem, 4vw, 2.4rem);
+            font-weight: 600;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+        
+        .slogan span {
+            color: var(--couleur-primaire);
+            font-weight: 700;
+        }
+        
+        .sous-titre {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: #555;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--couleur-secondaire);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: var(--couleur-primaire);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* === PAGE PRODUITS === */
+        .produits-container {
+            display: none;
+        }
+        
+        .produits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 40px 0;
+        }
+        
+        .produit-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+            padding: 25px 20px;
+        }
+        
+        .produit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .produit-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+        }
+        
+        .produit-card h3 {
+            margin: 10px 0;
+            color: var(--couleur-secondaire);
+            font-size: clamp(1.1rem, 3vw, 1.3rem);
+        }
+        
+        .description {
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+            color: #666;
+            margin-bottom: 15px;
+            min-height: 60px;
+        }
+        
+        .prix {
+            font-weight: bold;
+            font-size: clamp(1.1rem, 3vw, 1.3rem);
+            color: var(--couleur-primaire);
+            margin: 20px 0;
+        }
+        
+        .btn-commander, .btn-retour {
+            display: inline-block;
+            background-color: var(--couleur-primaire);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+        
+        .btn-commander:hover {
+            background-color: #9a7554;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(183, 141, 101, 0.3);
+        }
+        
+        .btn-retour {
+            background-color: var(--couleur-secondaire);
+            margin: 30px 0;
+        }
+        
+        /* === FOOTER === */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: auto;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .footer-content {
+            margin-bottom: 15px;
+        }
+        
+        .footer-content a {
+            color: var(--couleur-primaire);
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: clamp(0.8rem, 3vw, 1rem);
+        }
+        
+        .dev-credit {
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            color: #777;
+        }
+        
+        .dev-credit a {
+            color: var(--couleur-secondaire);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        /* === ANIMATIONS === */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 20px;
+                min-height: 50vh;
+            }
+            
+            .hero-content {
+                padding: 20px;
+                width: 90%;
+            }
+            
+            .produits-grid {
+                grid-template-columns: 1fr;
+                padding: 20px 0;
+            }
+            
+            .btn, .btn-commander, .btn-retour {
+                padding: 12px 25px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero {
+                background-position: 60% center;
+            }
+            
+            .footer-content a {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PAGE ACCUEIL -->
+    <div class="container">
+        <header>
+            <h1 class="logo">ESTA SHOP</h1>
+        </header>
+        
+        <main>
+            <div class="hero">
+                <div class="hero-content">
+                    <p class="slogan">BIENVENU CHEZ <span>ESTA SHOP</span> </p>
+                    <p class="sous-titre">Découvrez des fragrances exclusives qui subliment votre personnalité</p>
+                    <button class="btn" id="btn-decouvrir">Découvrir la collection</button>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <div class="footer-content">
+                <a href="https://wa.me/+2290161032423">📱 📞 +229 0161032423</a>
+               <a href="mailto:sehouestelle1@gmail.com?subject=Contact%20depuis%20ESTA%20SHOP&body=Bonjour,%20je%20vous%20contacte%20à%20propos%20de...">📧 sehouestelle1@gmail.com</a>
+            </div>
+            <p class="dev-credit">Développé par <a href="https://emotixel.netlify.app/" target="_blank">EMOTIXEL</a></p>
+        </footer>
+    </div>
+
+    <!-- PAGE PRODUITS (cachée par défaut) -->
+    <div class="container produits-container" id="produits">
+        <header>
+            <h1 class="logo">COLLECTION ESTA SHOP</h1>
+            <button class="btn-retour" id="btn-retour">Retour à l'accueil</button>
+        </header>
+        
+        <main>
+            <div class="produits-grid">
+                <!-- Produit 1 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.01_d15f6bb6.jpg" alt="24K" class="produit-image">
+                    
+                    
+                    <p class="prix">3000 F CFA</p>
+                    <button class="btn-commander" data-nom="Élégance Noire" data-prix="89€">Commander</button>
+                </div>
+                
+                <!-- Produit 2 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.02_e1a49ea0.jpg" alt="Lumière d'Été" class="produit-image">
+                    
+                   
+                    <p class="prix">3000 F CFA</p>
+                    <button class="btn-commander" data-nom="Lumière d'Été" data-prix="75€">Commander</button>
+                </div>
+                
+                <!-- Produit 3 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.03_5c5b8c72.jpg" alt="Mystère Royal" class="produit-image">
+                   
+                    
+                    <p class="prix">3000 F CFA</p>
+                    <button class="btn-commander" data-nom="Mystère Royal" data-prix="110€">Commander</button>
+                </div>
+                
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.03_8b39b59c.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    
+                    <p class="prix">3500 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.04_631e11b2.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    
+                    <p class="prix">8000 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.04_d1a5a7b0.jpg" alt="Essence Pure" class="produit-image">
+                    
+                    
+                    <p class="prix">2000 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.05_cc0cd22e.jpg" alt="Essence Pure" class="produit-image">
+                    
+                    
+                    <p class="prix">1200 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.05_f54c1946.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    
+                    <p class="prix">1200 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.06_05ceccd9.jpg" alt="Essence Pure" class="produit-image">
+                  
+                    
+                    <p class="prix">1500 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.06_167fa0b2.jpg" alt="Essence Pure" class="produit-image">
+                    
+                    
+                    <p class="prix">1200 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.06_56dcc391.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    
+                    <p class="prix">1500 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+               
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.07_34d21bb8.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    
+                    <p class="prix">3000 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.07_ac7b0a2e.jpg" alt="Essence Pure" class="produit-image">
+                    
+                    
+                    <p class="prix">2500 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.07_daaff36c.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    
+                    <p class="prix">1500 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.08_a33239b6.jpg" alt="Essence Pure" class="produit-image">
+                    
+                    
+                    <p class="prix">1500 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.08_b39f92bb.jpg" alt="Essence Pure" class="produit-image">
+                  
+                    
+                    <p class="prix">700 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.09_53b69a25.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    
+                    <p class="prix">1500 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.09_7993c316.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    
+                    <p class="prix">8000 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.09_fca5cbe8.jpg" alt="Essence Pure" class="produit-image">
+                    
+                    
+                    <p class="prix">1500 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.10_264ec354.jpg" alt="Essence Pure" class="produit-image">
+                    
+                    
+                    <p class="prix">3000 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.10_a0ed0907.jpg" alt="Essence Pure" class="produit-image">
+                    
+                    
+                    <p class="prix">10000 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.10_a2cab3bc.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    
+                    <p class="prix">2500 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.11_765e50b2.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    
+                    <p class="prix">1500 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                 <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.11_8962d1ba.jpg" alt="Essence Pure" class="produit-image">
+                    
+                    
+                    <p class="prix">1500 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                 <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.11_fe72fb41.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    <p class="prix">2000 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                 <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.12_3bb6cfd9.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    
+                    <p class="prix">2000 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                 <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.12_29da6adf.jpg" alt="Essence Pure" class="produit-image">
+                    
+                    
+                    <p class="prix">700 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                 <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.12_eae3c9e7.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    
+                    <p class="prix">700 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.13_04b0ab98.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    
+                    <p class="prix">2500 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.13_8dfa40ba.jpg" alt="Essence Pure" class="produit-image">
+                    
+                    
+                    <p class="prix">1500 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.13_11c6ad5e.jpg" alt="Essence Pure" class="produit-image">
+                    
+                    
+                    <p class="prix">2500 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.14_238fa066.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    
+                    <p class="prix">1200 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.14_a41fdfda.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    
+                    <p class="prix">2000 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.14_bf6bd8b9.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    
+                    <p class="prix">1500 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.15_26df3247.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    
+                    <p class="prix">2000 F CFA </p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.15_a5d01a87.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    
+                    <p class="prix">6000 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.15_dad52ad3.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    
+                    <p class="prix">3000 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.16_d3aeb9d9.jpg" alt="Essence Pure" class="produit-image">
+                    
+                    
+                    <p class="prix">2500 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.17_3ab206e4.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    
+                    <p class="prix">3000 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                 <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.17_93f0c83f.jpg" alt="Essence Pure" class="produit-image">
+                    
+                    <p class="prix">2000 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                 <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.17_f5f861f1.jpg" alt="Essence Pure" class="produit-image">
+                   
+                    
+                    <p class="prix">2500 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                 <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 17.16.15_78967915.jpg" alt="Essence Pure" class="produit-image">
+                    
+                    
+                    <p class="prix">4000 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+                <!-- Produit 4 -->
+                <div class="produit-card">
+                    <img src="image\WhatsApp Image 2025-05-16 à 14.53.30_a98796de.jpg" alt="Essence Pure" class="produit-image">
+                    
+                    
+                    <p class="prix">2500 F CFA</p>
+                    <button class="btn-commander" data-nom="Essence Pure" data-prix="68€">Commander</button>
+                </div>
+            </div>
+           
+        </main>
+    </div>
+
+    <script>
+        // Navigation entre pages
+        document.getElementById('btn-decouvrir').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('.container').style.display = 'none';
+            document.getElementById('produits').style.display = 'block';
+            window.scrollTo(0, 0);
+        });
+        
+        document.getElementById('btn-retour').addEventListener('click', function() {
+            document.getElementById('produits').style.display = 'none';
+            document.querySelector('.container').style.display = 'block';
+            window.scrollTo(0, 0);
+        });
+        
+       document.querySelectorAll('.btn-commander').forEach(bouton => {
+    bouton.addEventListener('click', function() {
+        const nomParfum = this.getAttribute('data-nom');
+        const prixParfum = this.parentElement.querySelector('.prix').textContent; // Récupère le prix affiché
+        const imageParfum = this.parentElement.querySelector('.produit-image').src; // Utilisez .src au lieu de .alt
+
+        const message = `Bonjour Esta Shop,%0A%0AJe souhaite commander ce parfum  : ${imageParfum}     %0A%0APouvez-vous me confirmer la disponibilité ?`;
+        
+        const numeroWhatsApp = '+22961032423'; // Remplacez par votre vrai numéro
+        window.open(`https://wa.me/${numeroWhatsApp}?text=${message}`, '_blank');
+    });
+});
+    </script>
+</body>
+</html>
