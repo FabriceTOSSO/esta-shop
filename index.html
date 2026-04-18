@@ -963,24 +963,32 @@
         window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
         
         // Commander via WhatsApp
-        document.getElementById('commanderPanier').addEventListener('click', () => {
-            if (panier.length === 0) {
-                afficherToast('Votre panier est vide');
-                return;
-            }
-            
-            let message = "Bonjour Esta Shop,%0A%0AJe souhaite commander :%0A%0A";
-            let total = 0;
-            panier.forEach(item => {
-                message += `- ${item.nom} : ${item.quantite} x ${item.prix.toLocaleString()} F CFA = ${(item.prix * item.quantite).toLocaleString()} F CFA%0A`;
-                total += item.prix * item.quantite;
-            });
-            message += `%0A📦 TOTAL : ${total.toLocaleString()} F CFA%0A%0A`;
-            message += `📝 Merci de confirmer ma commande.`;
-            
-            const numeroWhatsApp = '+22961032423';
-            window.open(`https://wa.me/${numeroWhatsApp}?text=${message}`, '_blank');
-        });
+        // Commander via WhatsApp avec liens cliquables
+document.getElementById('commanderPanier').addEventListener('click', () => {
+    if (panier.length === 0) {
+        afficherToast('Votre panier est vide');
+        return;
+    }
+    
+    let message = "🛍️ *NOUVELLE COMMANDE* 🛍️%0A%0A";
+    let total = 0;
+    
+    panier.forEach((item, index) => {
+        message += `*Produit ${index + 1}:*%0A`;
+        message += `Nom: ${item.nom}%0A`;
+        message += `Prix: ${item.prix.toLocaleString()} F CFA%0A`;
+        message += `Quantité: ${item.quantite}%0A`;
+        message += `Total: ${(item.prix * item.quantite).toLocaleString()} F CFA%0A`;
+        message += `📷 Image: ${item.image}%0A%0A`;
+        total += item.prix * item.quantite;
+    });
+    
+    message += `💵 *TOTAL: ${total.toLocaleString()} F CFA*%0A%0A`;
+    message += `✅ Confirmez-vous cette commande ?`;
+    
+    const numeroWhatsApp = '+22961032423';
+    window.open(`https://wa.me/${numeroWhatsApp}?text=${message}`, '_blank');
+});
         
         // Carrousel
         const slides = document.getElementById('carouselSlides');
