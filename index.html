@@ -963,7 +963,7 @@
         window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
         
         // Commander via WhatsApp
-        // Commander via WhatsApp avec liens cliquables
+        // Commander via WhatsApp avec liens hypertexte
 document.getElementById('commanderPanier').addEventListener('click', () => {
     if (panier.length === 0) {
         afficherToast('Votre panier est vide');
@@ -974,17 +974,17 @@ document.getElementById('commanderPanier').addEventListener('click', () => {
     let total = 0;
     
     panier.forEach((item, index) => {
-        message += `*Produit ${index + 1}:*%0A`;
-        message += `Nom: ${item.nom}%0A`;
-        message += `Prix: ${item.prix.toLocaleString()} F CFA%0A`;
-        message += `Quantité: ${item.quantite}%0A`;
-        message += `Total: ${(item.prix * item.quantite).toLocaleString()} F CFA%0A`;
-        message += `📷 Image: ${item.image}%0A%0A`;
+        // Construction du lien au format WhatsApp
+        const fullImageUrl = item.image.startsWith('http') ? item.image : `https://votre-site.com/${item.image}`;
+        
+        message += `*Produit ${index + 1}*%0A`;
+        message += `💵 ${item.prix.toLocaleString()} F CFA x ${item.quantite} = ${(item.prix * item.quantite).toLocaleString()} F CFA%0A`;
+        message += `🖼️ <${fullImageUrl}>%0A%0A`;
         total += item.prix * item.quantite;
     });
     
-    message += `💵 *TOTAL: ${total.toLocaleString()} F CFA*%0A%0A`;
-    message += `✅ Confirmez-vous cette commande ?`;
+    message += `💰 *TOTAL: ${total.toLocaleString()} F CFA*%0A%0A`;
+    message += `✅ Merci de confirmer`;
     
     const numeroWhatsApp = '+22961032423';
     window.open(`https://wa.me/${numeroWhatsApp}?text=${message}`, '_blank');
