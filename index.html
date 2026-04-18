@@ -963,7 +963,7 @@
         window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
         
         // Commander via WhatsApp
-        // Commander via WhatsApp avec lien direct vers l'image sur le site
+       // Commander via WhatsApp - Version avec encodage URL
 document.getElementById('commanderPanier').addEventListener('click', () => {
     if (panier.length === 0) {
         afficherToast('Votre panier est vide');
@@ -974,14 +974,15 @@ document.getElementById('commanderPanier').addEventListener('click', () => {
     let total = 0;
     
     panier.forEach((item, index) => {
-        // Construire l'URL complète de l'image sur votre site
-        const imageUrl = `https://esta-shop.netlify.app/${item.image}`;
+        // Encoder l'URL pour remplacer les espaces par %20
+        const encodedImageUrl = encodeURIComponent(item.image).replace(/%2F/g, '/');
+        const fullImageUrl = `https://esta-shop.netlify.app/${encodedImageUrl}`;
         
         message += `*📦 Produit ${index + 1}:*%0A`;
         message += `💰 Prix: ${item.prix.toLocaleString()} F CFA%0A`;
         message += `🔢 Quantité: ${item.quantite}%0A`;
         message += `💵 Total: ${(item.prix * item.quantite).toLocaleString()} F CFA%0A`;
-        message += `🖼️ Voir la photo: ${imageUrl}%0A%0A`;
+        message += `🖼️ Voir la photo: ${fullImageUrl}%0A%0A`;
         total += item.prix * item.quantite;
     });
     
