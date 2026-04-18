@@ -64,8 +64,44 @@
             color: transparent;
         }
         
+        /* PANIER ICON */
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.8rem;
+            color: var(--couleur-secondaire);
+            transition: var(--transition);
+        }
+        
+        .cart-icon:hover {
+            color: var(--couleur-primaire);
+            transform: scale(1.05);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: var(--couleur-primaire);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        
         /* BOUTONS */
-        .btn-retour, .btn-hero, .btn-commander {
+        .btn-retour, .btn-hero, .btn-commander, .btn-panier {
             display: inline-flex;
             align-items: center;
             gap: 12px;
@@ -93,14 +129,177 @@
             font-size: 1rem;
         }
         
-        .btn-hero:hover, .btn-retour:hover, .btn-commander:hover {
+        .btn-hero:hover, .btn-retour:hover, .btn-commander:hover, .btn-panier:hover {
             background: linear-gradient(135deg, var(--couleur-primaire) 0%, var(--couleur-primaire-fonce) 100%);
             transform: translateY(-3px);
             box-shadow: 0 20px 30px -12px rgba(196, 154, 108, 0.4);
         }
         
-        .btn-hero:hover i, .btn-retour:hover i {
-            transform: translateX(6px);
+        .btn-commander {
+            background: var(--couleur-primaire);
+            padding: 12px 30px;
+            font-size: 0.9rem;
+        }
+        
+        /* MODAL PANIER */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(196, 154, 108, 0.2);
+        }
+        
+        .modal-header h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--couleur-secondaire);
+        }
+        
+        .close-modal {
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .close-modal:hover {
+            color: var(--couleur-primaire);
+            transform: scale(1.1);
+        }
+        
+        .cart-items {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .cart-item-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        
+        .cart-item-details {
+            flex: 1;
+        }
+        
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .cart-item-price {
+            color: var(--couleur-primaire);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .quantity-btn {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .quantity-btn:hover {
+            background: var(--couleur-primaire);
+            color: white;
+            border-color: var(--couleur-primaire);
+        }
+        
+        .cart-item-total {
+            font-weight: 700;
+            min-width: 80px;
+            text-align: right;
+        }
+        
+        .remove-item {
+            color: #ff4444;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+        
+        .remove-item:hover {
+            transform: scale(1.1);
+        }
+        
+        .cart-summary {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+        
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        
+        .btn-commander-panier {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 40px;
+            color: #999;
         }
         
         /* HERO SECTION */
@@ -209,7 +408,6 @@
             display: block;
         }
         
-        /* Indicateurs du carrousel */
         .carousel-dots {
             position: absolute;
             bottom: 20px;
@@ -235,7 +433,6 @@
             border-radius: 5px;
         }
         
-        /* Boutons de navigation */
         .carousel-btn {
             position: absolute;
             top: 50%;
@@ -261,13 +458,8 @@
             transform: translateY(-50%) scale(1.1);
         }
         
-        .carousel-prev {
-            left: 15px;
-        }
-        
-        .carousel-next {
-            right: 15px;
-        }
+        .carousel-prev { left: 15px; }
+        .carousel-next { right: 15px; }
         
         /* FEATURES */
         .features {
@@ -337,12 +529,6 @@
             margin-bottom: 20px;
         }
         
-        .produit-card h3 {
-            margin: 10px 0;
-            color: var(--couleur-secondaire);
-            font-size: 1.2rem;
-        }
-        
         .prix {
             font-weight: 800;
             font-size: 1.4rem;
@@ -350,10 +536,26 @@
             margin: 20px 0;
         }
         
-        .btn-commander {
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
             background: var(--couleur-primaire);
-            padding: 12px 30px;
-            font-size: 0.9rem;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1001;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
         }
         
         /* FOOTER */
@@ -408,109 +610,27 @@
         
         /* RESPONSIVE */
         @media (max-width: 768px) {
-            .container {
-                padding: 0 20px;
-            }
-            
-            header {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .hero {
-                flex-direction: column;
-                text-align: center;
-                padding: 20px 0 40px;
-            }
-            
-            .hero-content {
-                text-align: center;
-            }
-            
-            .hero-description {
-                margin-left: auto;
-                margin-right: auto;
-            }
-            
-            .hero-stats {
-                justify-content: center;
-            }
-            
-            .hero-image {
-                width: 100%;
-                aspect-ratio: 1 / 1;
-            }
-            
-            .features {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .produits-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 20px;
-            }
-            
-            .produit-card {
-                padding: 20px 15px;
-            }
-            
-            .produit-image {
-                height: 200px;
-            }
-            
-            .prix {
-                font-size: 1.2rem;
-            }
-            
-            .carousel-btn {
-                width: 30px;
-                height: 30px;
-                font-size: 0.9rem;
-            }
+            .container { padding: 0 20px; }
+            header { flex-direction: column; text-align: center; }
+            .hero { flex-direction: column; text-align: center; padding: 20px 0 40px; }
+            .hero-content { text-align: center; }
+            .hero-description { margin-left: auto; margin-right: auto; }
+            .hero-stats { justify-content: center; }
+            .hero-image { width: 100%; aspect-ratio: 1 / 1; }
+            .features { flex-direction: column; gap: 15px; }
+            .produits-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+            .produit-card { padding: 20px 15px; }
+            .produit-image { height: 200px; }
+            .prix { font-size: 1.2rem; }
+            .carousel-btn { width: 30px; height: 30px; font-size: 0.9rem; }
+            .header-right { justify-content: center; }
         }
         
         @media (max-width: 480px) {
-            .hero-stats {
-                gap: 20px;
-            }
-            
-            .stat-number {
-                font-size: 1.4rem;
-            }
-            
-            .btn-hero, .btn-retour {
-                padding: 12px 24px;
-                font-size: 0.85rem;
-            }
-            
-            .produits-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .produit-image {
-                height: 220px;
-            }
-            
-            .footer-links {
-                gap: 15px;
-            }
-            
-            .social-icons {
-                gap: 20px;
-            }
-        }
-        
-        @media (max-width: 360px) {
-            .hero-stats {
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
-            }
-            
-            .stat {
-                text-align: center;
-            }
+            .hero-stats { gap: 20px; }
+            .stat-number { font-size: 1.4rem; }
+            .produits-grid { grid-template-columns: 1fr; }
+            .cart-item { flex-wrap: wrap; }
         }
     </style>
 </head>
@@ -519,6 +639,12 @@
     <div class="container" id="pageAccueil">
         <header>
             <div class="logo">ESTA SHOP</div>
+            <div class="header-right">
+                <div class="cart-icon" id="cartIcon">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+            </div>
         </header>
         
         <main>
@@ -532,171 +658,278 @@
                         Des fragrances uniques, conçues pour révéler votre essence. Chaque flacon raconte une histoire d'exception et de raffinement.
                     </p>
                     <div class="hero-stats">
-                        <div class="stat">
-                            <div class="stat-number">50+</div>
-                            <div class="stat-label">FRAGRANCES</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">100%</div>
-                            <div class="stat-label">ORIGINALES</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">24/7</div>
-                            <div class="stat-label">SUPPORT</div>
-                        </div>
+                        <div class="stat"><div class="stat-number">50+</div><div class="stat-label">FRAGRANCES</div></div>
+                        <div class="stat"><div class="stat-number">100%</div><div class="stat-label">ORIGINALES</div></div>
+                        <div class="stat"><div class="stat-number">24/7</div><div class="stat-label">SUPPORT</div></div>
                     </div>
                     <button class="btn-hero" id="btn-decouvrir-hero">
                         Découvrir la collection <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
                 
-                <!-- CARROUSEL D'IMAGES DE PARFUMS -->
                 <div class="hero-image">
                     <div class="carousel-container">
                         <div class="carousel-slides" id="carouselSlides">
-                            <div class="carousel-slide">
-                                <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=600&h=600&fit=crop" alt="Parfum de luxe 1">
-                            </div>
-                            <div class="carousel-slide">
-                                <img src="https://bombastikgirl.com/wp-content/uploads/2019/05/parfums-floraux-e1558632057500.jpeg" alt="Parfum de luxe 2">
-                            </div>
-                            <div class="carousel-slide">
-                                <img src="https://tse1.mm.bing.net/th/id/OIP.b0kb0lob5htMgd4TOW--oQHaEK?w=1000&h=562&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Parfum de luxe 3">
-                            </div>
-                            <div class="carousel-slide">
-                                <img src="https://i.pinimg.com/originals/5b/63/72/5b63727e05d9c692edd10887e19cdee3.jpg" alt="Parfum de luxe 4">
-                            </div>
-                            <div class="carousel-slide">
-                                <img src="https://tse4.mm.bing.net/th/id/OIP.0UuQJHVMvUQNG6D0tjCScAHaHa?w=2001&h=2001&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Parfum de luxe 5">
-                            </div>
-                            <div class="carousel-slide">
-                                <img src="https://img.ws.mms.shopee.com.my/4b324787ae7693c124f90f30df1aa040" alt="Parfum de luxe 6">
-                            </div>
+                            <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=600&h=600&fit=crop" alt="Parfum de luxe 1"></div>
+                            <div class="carousel-slide"><img src="https://bombastikgirl.com/wp-content/uploads/2019/05/parfums-floraux-e1558632057500.jpeg" alt="Parfum de luxe 2"></div>
+                            <div class="carousel-slide"><img src="https://tse1.mm.bing.net/th/id/OIP.b0kb0lob5htMgd4TOW--oQHaEK?w=1000&h=562&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Parfum de luxe 3"></div>
+                            <div class="carousel-slide"><img src="https://i.pinimg.com/originals/5b/63/72/5b63727e05d9c692edd10887e19cdee3.jpg" alt="Parfum de luxe 4"></div>
+                            <div class="carousel-slide"><img src="https://tse4.mm.bing.net/th/id/OIP.0UuQJHVMvUQNG6D0tjCScAHaHa?w=2001&h=2001&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Parfum de luxe 5"></div>
+                            <div class="carousel-slide"><img src="https://img.ws.mms.shopee.com.my/4b324787ae7693c124f90f30df1aa040" alt="Parfum de luxe 6"></div>
                         </div>
-                        
-                        <!-- Boutons de navigation -->
-                        <div class="carousel-btn carousel-prev" id="carouselPrev">
-                            <i class="fas fa-chevron-left"></i>
-                        </div>
-                        <div class="carousel-btn carousel-next" id="carouselNext">
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        
-                        <!-- Indicateurs -->
+                        <div class="carousel-btn carousel-prev" id="carouselPrev"><i class="fas fa-chevron-left"></i></div>
+                        <div class="carousel-btn carousel-next" id="carouselNext"><i class="fas fa-chevron-right"></i></div>
                         <div class="carousel-dots" id="carouselDots"></div>
                     </div>
                 </div>
             </div>
             
             <div class="features">
-                <div class="feature-item">
-                    <i class="fas fa-gem"></i>
-                    <h4>Ingrédients d'exception</h4>
-                    <p>Matières premières rares et précieuses</p>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-hand-holding-heart"></i>
-                    <h4>Satisfaction garantie</h4>
-                    <p>Qualité authentique certifiée</p>
-                </div>
+                <div class="feature-item"><i class="fas fa-gem"></i><h4>Ingrédients d'exception</h4><p>Matières premières rares et précieuses</p></div>
+                <div class="feature-item"><i class="fas fa-hand-holding-heart"></i><h4>Satisfaction garantie</h4><p>Qualité authentique certifiée</p></div>
             </div>
         </main>
         
         <footer>
             <div class="footer-content">
                 <div class="social-icons">
-                    <a href="https://www.facebook.com/share/16DZfsn3ex/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" style="color: #1877F2;">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="https://www.tiktok.com/@estelle_286?_t=ZS-8xptF7Fa8FV&_r=1" target="_blank" rel="noopener noreferrer" style="color: #000000;">
-                        <i class="fab fa-tiktok"></i>
-                    </a>
-                    <a href="https://wa.me/+22968942273" target="_blank" rel="noopener noreferrer" style="color: #25D366;">
-                        <i class="fab fa-whatsapp"></i>
-                    </a>
+                    <a href="https://www.facebook.com/share/16DZfsn3ex/?mibextid=wwXIfr" target="_blank" style="color: #1877F2;"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.tiktok.com/@estelle_286?_t=ZS-8xptF7Fa8FV&_r=1" target="_blank" style="color: #000000;"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://wa.me/+22968942273" target="_blank" style="color: #25D366;"><i class="fab fa-whatsapp"></i></a>
                 </div>
-                <div class="footer-links">
-                    <a href="#">À propos</a>
-                    <a href="#">Contact</a>
-                </div>
+                <div class="footer-links"><a href="#">À propos</a><a href="#">Contact</a></div>
                 <p style="font-size: 0.8rem; color: #aaa;">&copy; 2025 ESTA SHOP - Parfums d'exception</p>
             </div>
         </footer>
     </div>
 
-    <!-- PAGE PRODUITS (tous les produits avec leurs URLs et prix originaux) -->
+    <!-- PAGE PRODUITS -->
     <div class="container produits-container" id="produits">
         <header>
             <h1 class="logo">COLLECTION EXCLUSIVE</h1>
-            <button class="btn-retour" id="btn-retour">← Retour à l'accueil</button>
+            <div class="header-right">
+                <div class="cart-icon" id="cartIcon2">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count" id="cartCount2">0</span>
+                </div>
+                <button class="btn-retour" id="btn-retour">← Retour à l'accueil</button>
+            </div>
         </header>
         
         <main>
-            <div class="produits-grid">
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.01_d15f6bb6.jpg" alt="24K" class="produit-image" loading="lazy"><p class="prix">3000 F CFA</p><button class="btn-commander" data-nom="24K" data-prix="3000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.02_e1a49ea0.jpg" alt="Lumière d'Été" class="produit-image" loading="lazy"><p class="prix">3000 F CFA</p><button class="btn-commander" data-nom="Lumière d'Été" data-prix="3000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.03_5c5b8c72.jpg" alt="Mystère Royal" class="produit-image" loading="lazy"><p class="prix">3000 F CFA</p><button class="btn-commander" data-nom="Mystère Royal" data-prix="3000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.03_8b39b59c.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">3500 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="3500 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.04_631e11b2.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">8000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="8000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.04_d1a5a7b0.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">2000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="2000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.05_cc0cd22e.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">1200 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="1200 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.05_f54c1946.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">1200 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="1200 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.06_05ceccd9.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">1500 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="1500 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.06_167fa0b2.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">1200 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="1200 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.06_56dcc391.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">1500 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="1500 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.07_34d21bb8.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">3000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="3000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.07_ac7b0a2e.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">2500 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="2500 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.07_daaff36c.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">1500 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="1500 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.08_a33239b6.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">1500 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="1500 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.08_b39f92bb.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">700 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="700 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.09_53b69a25.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">1500 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="1500 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.09_7993c316.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">8000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="8000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.09_fca5cbe8.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">1500 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="1500 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.10_264ec354.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">3000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="3000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.10_a0ed0907.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">10000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="10000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.10_a2cab3bc.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">2500 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="2500 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.11_765e50b2.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">1500 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="1500 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.11_8962d1ba.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">1500 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="1500 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.11_fe72fb41.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">2000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="2000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.12_3bb6cfd9.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">2000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="2000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.12_29da6adf.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">700 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="700 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.12_eae3c9e7.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">700 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="700 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.13_04b0ab98.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">2500 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="2500 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.13_8dfa40ba.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">1500 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="1500 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.13_11c6ad5e.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">2500 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="2500 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.14_238fa066.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">1200 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="1200 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.14_a41fdfda.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">2000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="2000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.14_bf6bd8b9.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">1500 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="1500 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.15_26df3247.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">2000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="2000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.15_a5d01a87.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">6000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="6000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.15_dad52ad3.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">3000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="3000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.16_d3aeb9d9.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">2500 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="2500 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.17_3ab206e4.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">3000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="3000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.17_93f0c83f.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">2000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="2000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.17_f5f861f1.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">2500 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="2500 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 17.16.15_78967915.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">4000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="4000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2025-05-16 à 14.53.30_a98796de.jpg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">2500 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="2500 F CFA">Commander</button></div>
-
-                <div class="produit-card"><img src="image/WhatsApp Image 2026-04-14 at 23.07.14.jpeg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">4500 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="3000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2026-04-14 at 23.07.15.jpeg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">4000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="2000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2026-04-14 at 23.07.16.jpeg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">2000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="2500 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2026-04-14 at 23.07.17 (1).jpeg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">3000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="4000 F CFA">Commander</button></div>
-
-                 <div class="produit-card"><img src="image/WhatsApp Image 2026-04-14 at 23.07.17 (2).jpeg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">2500 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="3000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2026-04-14 at 23.07.17.jpeg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">2000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="2000 F CFA">Commander</button></div>
-              
-                <div class="produit-card"><img src="image/WhatsApp Image 2026-04-14 at 23.07.18 (1).jpeg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">3000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="4000 F CFA">Commander</button></div>
-
-                 <div class="produit-card"><img src="image/WhatsApp Image 2026-04-14 at 23.07.18 (2).jpeg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">500 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="2000 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2026-04-14 at 23.07.18.jpeg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">5000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="2500 F CFA">Commander</button></div>
-                <div class="produit-card"><img src="image/WhatsApp Image 2026-04-14 at 23.07.19.jpeg" alt="Essence Pure" class="produit-image" loading="lazy"><p class="prix">2000 F CFA</p><button class="btn-commander" data-nom="Essence Pure" data-prix="4000 F CFA">Commander</button></div>
-               
+            <div class="produits-grid" id="produitsGrid">
+                <!-- Les produits seront générés dynamiquement pour éviter la duplication -->
             </div>
         </main>
     </div>
 
+    <!-- MODAL PANIER -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-shopping-bag"></i> Mon Panier</h2>
+                <span class="close-modal" id="closeModal">&times;</span>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="empty-cart">Votre panier est vide</div>
+            </div>
+            <div class="cart-summary" id="cartSummary" style="display: none;">
+                <div class="cart-total">
+                    <span>Total :</span>
+                    <span id="cartTotal">0 F CFA</span>
+                </div>
+                <button class="btn-commander btn-commander-panier" id="commanderPanier">
+                    <i class="fab fa-whatsapp"></i> Commander sur WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Produit ajouté au panier</span>
+    </div>
+
     <script>
-        // Navigation dynamique
+        // ========== LISTE DES PRODUITS ==========
+        const produitsData = [
+            { nom: "24K", prix: 3000, image: "image/WhatsApp Image 2025-05-16 à 14.53.01_d15f6bb6.jpg" },
+            { nom: "Lumière d'Été", prix: 3000, image: "image/WhatsApp Image 2025-05-16 à 14.53.02_e1a49ea0.jpg" },
+            { nom: "Mystère Royal", prix: 3000, image: "image/WhatsApp Image 2025-05-16 à 14.53.03_5c5b8c72.jpg" },
+            { nom: "Essence Pure", prix: 3500, image: "image/WhatsApp Image 2025-05-16 à 14.53.03_8b39b59c.jpg" },
+            { nom: "Essence Pure", prix: 8000, image: "image/WhatsApp Image 2025-05-16 à 14.53.04_631e11b2.jpg" },
+            { nom: "Essence Pure", prix: 2000, image: "image/WhatsApp Image 2025-05-16 à 14.53.04_d1a5a7b0.jpg" },
+            { nom: "Essence Pure", prix: 1200, image: "image/WhatsApp Image 2025-05-16 à 14.53.05_cc0cd22e.jpg" },
+            { nom: "Essence Pure", prix: 1200, image: "image/WhatsApp Image 2025-05-16 à 14.53.05_f54c1946.jpg" },
+            { nom: "Essence Pure", prix: 1500, image: "image/WhatsApp Image 2025-05-16 à 14.53.06_05ceccd9.jpg" },
+            { nom: "Essence Pure", prix: 1200, image: "image/WhatsApp Image 2025-05-16 à 14.53.06_167fa0b2.jpg" },
+            { nom: "Essence Pure", prix: 1500, image: "image/WhatsApp Image 2025-05-16 à 14.53.06_56dcc391.jpg" },
+            { nom: "Essence Pure", prix: 3000, image: "image/WhatsApp Image 2025-05-16 à 14.53.07_34d21bb8.jpg" },
+            { nom: "Essence Pure", prix: 2500, image: "image/WhatsApp Image 2025-05-16 à 14.53.07_ac7b0a2e.jpg" },
+            { nom: "Essence Pure", prix: 1500, image: "image/WhatsApp Image 2025-05-16 à 14.53.07_daaff36c.jpg" },
+            { nom: "Essence Pure", prix: 1500, image: "image/WhatsApp Image 2025-05-16 à 14.53.08_a33239b6.jpg" },
+            { nom: "Essence Pure", prix: 700, image: "image/WhatsApp Image 2025-05-16 à 14.53.08_b39f92bb.jpg" },
+            { nom: "Essence Pure", prix: 1500, image: "image/WhatsApp Image 2025-05-16 à 14.53.09_53b69a25.jpg" },
+            { nom: "Essence Pure", prix: 8000, image: "image/WhatsApp Image 2025-05-16 à 14.53.09_7993c316.jpg" },
+            { nom: "Essence Pure", prix: 1500, image: "image/WhatsApp Image 2025-05-16 à 14.53.09_fca5cbe8.jpg" },
+            { nom: "Essence Pure", prix: 3000, image: "image/WhatsApp Image 2025-05-16 à 14.53.10_264ec354.jpg" },
+            { nom: "Essence Pure", prix: 10000, image: "image/WhatsApp Image 2025-05-16 à 14.53.10_a0ed0907.jpg" },
+            { nom: "Essence Pure", prix: 2500, image: "image/WhatsApp Image 2025-05-16 à 14.53.10_a2cab3bc.jpg" },
+            { nom: "Essence Pure", prix: 1500, image: "image/WhatsApp Image 2025-05-16 à 14.53.11_765e50b2.jpg" },
+            { nom: "Essence Pure", prix: 1500, image: "image/WhatsApp Image 2025-05-16 à 14.53.11_8962d1ba.jpg" },
+            { nom: "Essence Pure", prix: 2000, image: "image/WhatsApp Image 2025-05-16 à 14.53.11_fe72fb41.jpg" },
+            { nom: "Essence Pure", prix: 2000, image: "image/WhatsApp Image 2025-05-16 à 14.53.12_3bb6cfd9.jpg" },
+            { nom: "Essence Pure", prix: 700, image: "image/WhatsApp Image 2025-05-16 à 14.53.12_29da6adf.jpg" },
+            { nom: "Essence Pure", prix: 700, image: "image/WhatsApp Image 2025-05-16 à 14.53.12_eae3c9e7.jpg" },
+            { nom: "Essence Pure", prix: 2500, image: "image/WhatsApp Image 2025-05-16 à 14.53.13_04b0ab98.jpg" },
+            { nom: "Essence Pure", prix: 1500, image: "image/WhatsApp Image 2025-05-16 à 14.53.13_8dfa40ba.jpg" },
+            { nom: "Essence Pure", prix: 2500, image: "image/WhatsApp Image 2025-05-16 à 14.53.13_11c6ad5e.jpg" },
+            { nom: "Essence Pure", prix: 1200, image: "image/WhatsApp Image 2025-05-16 à 14.53.14_238fa066.jpg" },
+            { nom: "Essence Pure", prix: 2000, image: "image/WhatsApp Image 2025-05-16 à 14.53.14_a41fdfda.jpg" },
+            { nom: "Essence Pure", prix: 1500, image: "image/WhatsApp Image 2025-05-16 à 14.53.14_bf6bd8b9.jpg" },
+            { nom: "Essence Pure", prix: 2000, image: "image/WhatsApp Image 2025-05-16 à 14.53.15_26df3247.jpg" },
+            { nom: "Essence Pure", prix: 6000, image: "image/WhatsApp Image 2025-05-16 à 14.53.15_a5d01a87.jpg" },
+            { nom: "Essence Pure", prix: 3000, image: "image/WhatsApp Image 2025-05-16 à 14.53.15_dad52ad3.jpg" },
+            { nom: "Essence Pure", prix: 2500, image: "image/WhatsApp Image 2025-05-16 à 14.53.16_d3aeb9d9.jpg" },
+            { nom: "Essence Pure", prix: 3000, image: "image/WhatsApp Image 2025-05-16 à 14.53.17_3ab206e4.jpg" },
+            { nom: "Essence Pure", prix: 2000, image: "image/WhatsApp Image 2025-05-16 à 14.53.17_93f0c83f.jpg" },
+            { nom: "Essence Pure", prix: 2500, image: "image/WhatsApp Image 2025-05-16 à 14.53.17_f5f861f1.jpg" },
+            { nom: "Essence Pure", prix: 4000, image: "image/WhatsApp Image 2025-05-16 à 17.16.15_78967915.jpg" },
+            { nom: "Essence Pure", prix: 2500, image: "image/WhatsApp Image 2025-05-16 à 14.53.30_a98796de.jpg" },
+            { nom: "Essence Pure", prix: 4500, image: "image/WhatsApp Image 2026-04-14 at 23.07.14.jpeg" },
+            { nom: "Essence Pure", prix: 4000, image: "image/WhatsApp Image 2026-04-14 at 23.07.15.jpeg" },
+            { nom: "Essence Pure", prix: 2000, image: "image/WhatsApp Image 2026-04-14 at 23.07.16.jpeg" },
+            { nom: "Essence Pure", prix: 3000, image: "image/WhatsApp Image 2026-04-14 at 23.07.17 (1).jpeg" },
+            { nom: "Essence Pure", prix: 2500, image: "image/WhatsApp Image 2026-04-14 at 23.07.17 (2).jpeg" },
+            { nom: "Essence Pure", prix: 2000, image: "image/WhatsApp Image 2026-04-14 at 23.07.17.jpeg" },
+            { nom: "Essence Pure", prix: 3000, image: "image/WhatsApp Image 2026-04-14 at 23.07.18 (1).jpeg" },
+            { nom: "Essence Pure", prix: 500, image: "image/WhatsApp Image 2026-04-14 at 23.07.18 (2).jpeg" },
+            { nom: "Essence Pure", prix: 5000, image: "image/WhatsApp Image 2026-04-14 at 23.07.18.jpeg" },
+            { nom: "Essence Pure", prix: 2000, image: "image/WhatsApp Image 2026-04-14 at 23.07.19.jpeg" }
+        ];
+
+        // ========== PANIER ==========
+        let panier = JSON.parse(localStorage.getItem('panier')) || [];
+
+        function sauvegarderPanier() {
+            localStorage.setItem('panier', JSON.stringify(panier));
+            mettreAJourAffichagePanier();
+        }
+
+        function mettreAJourAffichagePanier() {
+            const total = panier.reduce((sum, item) => sum + (item.prix * item.quantite), 0);
+            const nombreArticles = panier.reduce((sum, item) => sum + item.quantite, 0);
+            
+            document.querySelectorAll('.cart-count').forEach(el => {
+                el.textContent = nombreArticles;
+            });
+            
+            return { total, nombreArticles };
+        }
+
+        function ajouterAuPanier(produit) {
+            const existant = panier.find(item => item.nom === produit.nom && item.prix === produit.prix);
+            if (existant) {
+                existant.quantite++;
+            } else {
+                panier.push({ ...produit, quantite: 1 });
+            }
+            sauvegarderPanier();
+            afficherToast(`${produit.nom} ajouté au panier !`);
+            afficherPanier();
+        }
+
+        function retirerDuPanier(index) {
+            panier.splice(index, 1);
+            sauvegarderPanier();
+            afficherPanier();
+        }
+
+        function modifierQuantite(index, delta) {
+            if (panier[index].quantite + delta <= 0) {
+                retirerDuPanier(index);
+            } else {
+                panier[index].quantite += delta;
+                sauvegarderPanier();
+                afficherPanier();
+            }
+        }
+
+        function afficherPanier() {
+            const cartItemsDiv = document.getElementById('cartItems');
+            const cartSummary = document.getElementById('cartSummary');
+            const { total, nombreArticles } = mettreAJourAffichagePanier();
+            
+            if (panier.length === 0) {
+                cartItemsDiv.innerHTML = '<div class="empty-cart"><i class="fas fa-shopping-bag"></i><p>Votre panier est vide</p></div>';
+                cartSummary.style.display = 'none';
+                return;
+            }
+            
+            cartSummary.style.display = 'block';
+            let html = '';
+            panier.forEach((item, index) => {
+                html += `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.nom}" class="cart-item-img" onerror="this.src='https://via.placeholder.com/60'">
+                        <div class="cart-item-details">
+                          
+                            <div class="cart-item-price">${item.prix.toLocaleString()} F CFA</div>
+                        </div>
+                        <div class="cart-item-quantity">
+                            <button class="quantity-btn" onclick="modifierQuantite(${index}, -1)">-</button>
+                            <span>${item.quantite}</span>
+                            <button class="quantity-btn" onclick="modifierQuantite(${index}, 1)">+</button>
+                        </div>
+                        <div class="cart-item-total">${(item.prix * item.quantite).toLocaleString()} F CFA</div>
+                        <div class="remove-item" onclick="retirerDuPanier(${index})"><i class="fas fa-trash-alt"></i></div>
+                    </div>
+                `;
+            });
+            cartItemsDiv.innerHTML = html;
+            document.getElementById('cartTotal').innerHTML = `${total.toLocaleString()} F CFA`;
+        }
+
+        function afficherToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // Générer les produits dans la grille
+        function genererProduits() {
+            const grid = document.getElementById('produitsGrid');
+            grid.innerHTML = '';
+            produitsData.forEach((produit, index) => {
+                const card = document.createElement('div');
+                card.className = 'produit-card';
+                card.innerHTML = `
+                    <img src="${produit.image}" alt="${produit.nom}" class="produit-image" loading="lazy" onerror="this.src='https://via.placeholder.com/280x220?text=Parfum'">
+                   
+                    <p class="prix">${produit.prix.toLocaleString()} F CFA</p>
+                    <button class="btn-commander" data-nom="${produit.nom}" data-prix="${produit.prix}" data-image="${produit.image}">
+                        <i class="fas fa-cart-plus"></i> Ajouter au panier
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+            
+            document.querySelectorAll('#produitsGrid .btn-commander').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const nom = btn.getAttribute('data-nom');
+                    const prix = parseInt(btn.getAttribute('data-prix'));
+                    const image = btn.getAttribute('data-image');
+                    ajouterAuPanier({ nom, prix, image });
+                });
+            });
+        }
+
+        // Navigation
         const accueil = document.getElementById('pageAccueil');
         const produitsPage = document.getElementById('produits');
         
@@ -712,24 +945,44 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         
-        // Événements de navigation
         document.getElementById('btn-decouvrir-hero').addEventListener('click', showProduits);
         document.getElementById('btn-retour').addEventListener('click', showAccueil);
         
-        // Boutons WhatsApp
-        document.querySelectorAll('.btn-commander').forEach(bouton => {
-            bouton.addEventListener('click', function() {
-                const produitCard = this.parentElement;
-                const imageUrl = produitCard.querySelector('.produit-image').src;
-                const prix = produitCard.querySelector('.prix').textContent;
-                const nom = this.getAttribute('data-nom') || 'Parfum';
-                const message = `Bonjour Esta Shop,%0A%0AJe souhaite commander : ${nom}%0APrix : ${prix}%0AImage : ${imageUrl}%0A%0APouvez-vous me confirmer la disponibilité ?`;
-                const numeroWhatsApp = '+22961032423';
-                window.open(`https://wa.me/${numeroWhatsApp}?text=${message}`, '_blank');
+        // Modal panier
+        const modal = document.getElementById('cartModal');
+        const closeModal = document.getElementById('closeModal');
+        
+        function openCartModal() {
+            afficherPanier();
+            modal.style.display = 'flex';
+        }
+        
+        document.getElementById('cartIcon').addEventListener('click', openCartModal);
+        document.getElementById('cartIcon2').addEventListener('click', openCartModal);
+        closeModal.addEventListener('click', () => modal.style.display = 'none');
+        window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+        
+        // Commander via WhatsApp
+        document.getElementById('commanderPanier').addEventListener('click', () => {
+            if (panier.length === 0) {
+                afficherToast('Votre panier est vide');
+                return;
+            }
+            
+            let message = "Bonjour Esta Shop,%0A%0AJe souhaite commander :%0A%0A";
+            let total = 0;
+            panier.forEach(item => {
+                message += `- ${item.nom} : ${item.quantite} x ${item.prix.toLocaleString()} F CFA = ${(item.prix * item.quantite).toLocaleString()} F CFA%0A`;
+                total += item.prix * item.quantite;
             });
+            message += `%0A📦 TOTAL : ${total.toLocaleString()} F CFA%0A%0A`;
+            message += `📝 Merci de confirmer ma commande.`;
+            
+            const numeroWhatsApp = '+22961032423';
+            window.open(`https://wa.me/${numeroWhatsApp}?text=${message}`, '_blank');
         });
         
-        // ========== CARROUSEL ==========
+        // Carrousel
         const slides = document.getElementById('carouselSlides');
         const slidesElements = document.querySelectorAll('.carousel-slide');
         const prevBtn = document.getElementById('carouselPrev');
@@ -739,9 +992,8 @@
         let currentIndex = 0;
         const totalSlides = slidesElements.length;
         let autoPlayInterval;
-        const AUTO_PLAY_DELAY = 2000; // 2 secondes
+        const AUTO_PLAY_DELAY = 2000;
         
-        // Créer les indicateurs
         function createDots() {
             dotsContainer.innerHTML = '';
             for (let i = 0; i < totalSlides; i++) {
@@ -753,87 +1005,42 @@
             }
         }
         
-        // Aller à un slide spécifique
         function goToSlide(index) {
             if (index < 0) index = totalSlides - 1;
             if (index >= totalSlides) index = 0;
             currentIndex = index;
             slides.style.transform = `translateX(-${currentIndex * 100}%)`;
-            
-            // Mettre à jour les indicateurs
-            document.querySelectorAll('.dot').forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentIndex);
-            });
+            document.querySelectorAll('.dot').forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
         }
         
-        // Slide suivant
-        function nextSlide() {
-            goToSlide(currentIndex + 1);
-        }
+        function nextSlide() { goToSlide(currentIndex + 1); }
+        function prevSlide() { goToSlide(currentIndex - 1); }
+        function startAutoPlay() { stopAutoPlay(); autoPlayInterval = setInterval(nextSlide, AUTO_PLAY_DELAY); }
+        function stopAutoPlay() { if (autoPlayInterval) { clearInterval(autoPlayInterval); autoPlayInterval = null; } }
+        function resetAutoPlay() { startAutoPlay(); }
         
-        // Slide précédent
-        function prevSlide() {
-            goToSlide(currentIndex - 1);
-        }
+        prevBtn.addEventListener('click', () => { prevSlide(); resetAutoPlay(); });
+        nextBtn.addEventListener('click', () => { nextSlide(); resetAutoPlay(); });
         
-        // Démarrer le défilement automatique
-        function startAutoPlay() {
-            stopAutoPlay();
-            autoPlayInterval = setInterval(nextSlide, AUTO_PLAY_DELAY);
-        }
-        
-        // Arrêter le défilement automatique
-        function stopAutoPlay() {
-            if (autoPlayInterval) {
-                clearInterval(autoPlayInterval);
-                autoPlayInterval = null;
-            }
-        }
-        
-        // Réinitialiser l'auto-play après interaction manuelle
-        function resetAutoPlay() {
-            startAutoPlay();
-        }
-        
-        // Événements des boutons
-        prevBtn.addEventListener('click', () => {
-            prevSlide();
-            resetAutoPlay();
-        });
-        
-        nextBtn.addEventListener('click', () => {
-            nextSlide();
-            resetAutoPlay();
-        });
-        
-        // Pause au survol
         const carouselContainer = document.querySelector('.carousel-container');
         carouselContainer.addEventListener('mouseenter', stopAutoPlay);
         carouselContainer.addEventListener('mouseleave', startAutoPlay);
         
-        // Initialisation
         createDots();
         startAutoPlay();
         
-        // Pour les écrans tactiles - support swipe
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        carouselContainer.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-            stopAutoPlay();
-        });
-        
+        let touchStartX = 0, touchEndX = 0;
+        carouselContainer.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; stopAutoPlay(); });
         carouselContainer.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].screenX;
-            const swipeThreshold = 50;
-            if (touchEndX < touchStartX - swipeThreshold) {
-                nextSlide();
-            } else if (touchEndX > touchStartX + swipeThreshold) {
-                prevSlide();
-            }
+            if (touchEndX < touchStartX - 50) nextSlide();
+            else if (touchEndX > touchStartX + 50) prevSlide();
             startAutoPlay();
         });
+        
+        // Initialisation
+        genererProduits();
+        mettreAJourAffichagePanier();
     </script>
 </body>
 </html>
