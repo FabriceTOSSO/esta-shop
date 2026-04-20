@@ -32,6 +32,11 @@
             overflow-x: hidden;
         }
         
+        /* EMPÊCHER LE SCROLL QUAND MODAL VISIONNEUSE EST OUVERTE */
+        body.modal-open {
+            overflow: hidden;
+        }
+        
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -101,7 +106,7 @@
         }
         
         /* BOUTONS */
-        .btn-retour, .btn-hero, .btn-commander, .btn-panier {
+        .btn-retour, .btn-hero, .btn-commander, .btn-panier, .btn-voir-grand {
             display: inline-flex;
             align-items: center;
             gap: 12px;
@@ -139,6 +144,20 @@
             background: var(--couleur-primaire);
             padding: 12px 30px;
             font-size: 0.9rem;
+        }
+        
+        .btn-voir-grand {
+            background: rgba(30, 30, 30, 0.8);
+            padding: 8px 16px;
+            font-size: 0.75rem;
+            gap: 8px;
+            margin-top: 8px;
+            box-shadow: none;
+        }
+        
+        .btn-voir-grand:hover {
+            background: var(--couleur-primaire);
+            transform: translateY(-2px);
         }
         
         /* MODAL PANIER */
@@ -527,6 +546,12 @@
             object-fit: cover;
             border-radius: 12px;
             margin-bottom: 20px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .produit-image:hover {
+            transform: scale(1.02);
         }
         
         .prix {
@@ -534,6 +559,96 @@
             font-size: 1.4rem;
             color: var(--couleur-primaire);
             margin: 20px 0;
+        }
+        
+        /* MODAL VISIONNEUSE GRAND ECRAN */
+        .viewer-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .viewer-content {
+            position: relative;
+            max-width: 95vw;
+            max-height: 95vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: zoomIn 0.3s ease;
+        }
+        
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .viewer-image {
+            max-width: 95vw;
+            max-height: 95vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+        }
+        
+        .viewer-close {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            font-size: 3rem;
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 2001;
+            background: rgba(0,0,0,0.5);
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        .viewer-close:hover {
+            color: var(--couleur-primaire);
+            transform: scale(1.1);
+            background: rgba(0,0,0,0.8);
+        }
+        
+        .viewer-caption {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            background: rgba(0,0,0,0.6);
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            backdrop-filter: blur(8px);
+            margin: 0 auto;
+            width: fit-content;
+            border-radius: 50px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         /* Toast notification */
@@ -624,6 +739,8 @@
             .prix { font-size: 1.2rem; }
             .carousel-btn { width: 30px; height: 30px; font-size: 0.9rem; }
             .header-right { justify-content: center; }
+            .viewer-close { top: 15px; right: 15px; width: 45px; height: 45px; font-size: 2rem; }
+            .viewer-caption { font-size: 0.9rem; bottom: 20px; }
         }
         
         @media (max-width: 480px) {
@@ -718,7 +835,7 @@
         
         <main>
             <div class="produits-grid" id="produitsGrid">
-                <!-- Les produits seront générés dynamiquement pour éviter la duplication -->
+                <!-- Les produits seront générés dynamiquement -->
             </div>
         </main>
     </div>
@@ -745,6 +862,17 @@
         </div>
     </div>
 
+    <!-- MODAL VISIONNEUSE GRAND FORMAT -->
+    <div class="viewer-modal" id="imageViewerModal">
+        <div class="viewer-content">
+            <img class="viewer-image" id="viewerImage" alt="Agrandissement produit">
+            <div class="viewer-close" id="viewerCloseBtn">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="viewer-caption" id="viewerCaption"></div>
+        </div>
+    </div>
+
     <!-- TOAST NOTIFICATION -->
     <div class="toast" id="toast">
         <i class="fas fa-check-circle"></i>
@@ -763,51 +891,50 @@
             { nom: "Essence Pure", prix: 1200, image: "image/7.jpg" },
             { nom: "Essence Pure", prix: 1200, image: "image/8.jpg" },
             { nom: "Essence Pure", prix: 1500, image: "image/9.jpg" },
-            { nom: "Essence Pure", prix: 1200, image: "image/10.jpg" },
             { nom: "Essence Pure", prix: 1500, image: "image/11.jpg" },
-            { nom: "Essence Pure", prix: 3000, image: "image/12.jpg" },
+            { nom: "Essence Pure", prix: 1200, image: "image/12.jpg" },
             { nom: "Essence Pure", prix: 2500, image: "image/13.jpg" },
-            { nom: "Essence Pure", prix: 1500, image: "image/14.jpg" },
+            { nom: "Essence Pure", prix: 2500, image: "image/14.jpg" },
             { nom: "Essence Pure", prix: 1500, image: "image/15.jpg" },
-            { nom: "Essence Pure", prix: 700, image: "image/16.jpg" },
-            { nom: "Essence Pure", prix: 1500, image: "image/17.jpg" },
-            { nom: "Essence Pure", prix: 8000, image: "image/18.jpg" },
-            { nom: "Essence Pure", prix: 1500, image: "image/19.jpg" },
-            { nom: "Essence Pure", prix: 3000, image: "image/20.jpg" },
-            { nom: "Essence Pure", prix: 10000, image: "image/21.jpg" },
-            { nom: "Essence Pure", prix: 2500, image: "image/22.jpg" },
-            { nom: "Essence Pure", prix: 1500, image: "image/23.jpg" },
+            { nom: "Essence Pure", prix: 1500, image: "image/16.jpg" },
+            { nom: "Essence Pure", prix: 700, image: "image/17.jpg" },
+            { nom: "Essence Pure", prix: 1500, image: "image/18.jpg" },
+            { nom: "Essence Pure", prix: 8000, image: "image/19.jpg" },
+            { nom: "Essence Pure", prix: 1500, image: "image/20.jpg" },
+            { nom: "Essence Pure", prix: 3000, image: "image/21.jpg" },
+            { nom: "Essence Pure", prix: 10000, image: "image/22.jpg" },
+            { nom: "Essence Pure", prix: 2500, image: "image/23.jpg" },
             { nom: "Essence Pure", prix: 1500, image: "image/24.jpg" },
-            { nom: "Essence Pure", prix: 2000, image: "image/25.jpg" },
+            { nom: "Essence Pure", prix: 1500, image: "image/25.jpg" },
             { nom: "Essence Pure", prix: 2000, image: "image/26.jpg" },
-            { nom: "Essence Pure", prix: 700, image: "image/27.jpg" },
+            { nom: "Essence Pure", prix: 2000, image: "image/27.jpg" },
             { nom: "Essence Pure", prix: 700, image: "image/28.jpg" },
-            { nom: "Essence Pure", prix: 2500, image: "image/29.jpg" },
-            { nom: "Essence Pure", prix: 1500, image: "image/30.jpg" },
-            { nom: "Essence Pure", prix: 2500, image: "image/31.jpg" },
-            { nom: "Essence Pure", prix: 1200, image: "image/32.jpg" },
-            { nom: "Essence Pure", prix: 2000, image: "image/33.jpg" },
-            { nom: "Essence Pure", prix: 1500, image: "image/34.jpg" },
-            { nom: "Essence Pure", prix: 2000, image: "image/35.jpg" },
-            { nom: "Essence Pure", prix: 6000, image: "image/36.jpg" },
-            { nom: "Essence Pure", prix: 3000, image: "image/37.jpg" },
-            { nom: "Essence Pure", prix: 2500, image: "image/38.jpg" },
-            { nom: "Essence Pure", prix: 3000, image: "image/39.jpg" },
-            { nom: "Essence Pure", prix: 2000, image: "image/40.jpg" },
-            { nom: "Essence Pure", prix: 2500, image: "image/41.jpg" },
-            { nom: "Essence Pure", prix: 4000, image: "image/42.jpg" },
+            { nom: "Essence Pure", prix: 700, image: "image/29.jpg" },
+            { nom: "Essence Pure", prix: 2500, image: "image/30.jpg" },
+            { nom: "Essence Pure", prix: 1500, image: "image/31.jpg" },
+            { nom: "Essence Pure", prix: 2500, image: "image/32.jpg" },
+            { nom: "Essence Pure", prix: 1200, image: "image/33.jpg" },
+            { nom: "Essence Pure", prix: 2000, image: "image/34.jpg" },
+            { nom: "Essence Pure", prix: 1500, image: "image/35.jpg" },
+            { nom: "Essence Pure", prix: 2000, image: "image/36.jpg" },
+            { nom: "Essence Pure", prix: 6000, image: "image/37.jpg" },
+            { nom: "Essence Pure", prix: 3000, image: "image/38.jpg" },
+            { nom: "Essence Pure", prix: 2500, image: "image/39.jpg" },
+            { nom: "Essence Pure", prix: 3000, image: "image/40.jpg" },
+            { nom: "Essence Pure", prix: 2000, image: "image/41.jpg" },
+            { nom: "Essence Pure", prix: 2500, image: "image/42.jpg" },
             { nom: "Essence Pure", prix: 2500, image: "image/43.jpg" },
-            { nom: "Essence Pure", prix: 4500, image: "image/44.jpg" },
-            { nom: "Essence Pure", prix: 4000, image: "image/45.jpg" },
-            { nom: "Essence Pure", prix: 2000, image: "image/46.jpg" },
-            { nom: "Essence Pure", prix: 3000, image: "image/47.jpg" },
-            { nom: "Essence Pure", prix: 2500, image: "image/48.jpg" },
-            { nom: "Essence Pure", prix: 2000, image: "image/49.jpg" },
-            { nom: "Essence Pure", prix: 3000, image: "image/50.jpg" },
-            { nom: "Essence Pure", prix: 500, image: "image/51.jpg" },
-            { nom: "Essence Pure", prix: 5000, image: "image/52.jpg" },
-            { nom: "Essence Pure", prix: 2000, image: "image/53.jpg" },
-            { nom: "Essence Pure", prix: 2500, image: "image/54.jpg" }
+            { nom: "Essence Pure", prix: 4000, image: "image/44.jpg" },
+            { nom: "Essence Pure", prix: 4000, image: "image/45.jpeg" },
+            { nom: "Essence Pure", prix: 2000, image: "image/46.jpeg" },
+            { nom: "Essence Pure", prix: 3000, image: "image/47.jpeg" },
+            { nom: "Essence Pure", prix: 2500, image: "image/48.jpeg" },
+            { nom: "Essence Pure", prix: 2000, image: "image/49.jpeg" },
+            { nom: "Essence Pure", prix: 3000, image: "image/50.jpeg" },
+            { nom: "Essence Pure", prix: 500, image: "image/51.jpeg" },
+            { nom: "Essence Pure", prix: 5000, image: "image/52.jpeg" },
+            { nom: "Essence Pure", prix: 2000, image: "image/53.jpeg" },
+            { nom: "Essence Pure", prix: 2500, image: "image/54.jpeg" }
         ];
 
         // ========== PANIER ==========
@@ -875,7 +1002,6 @@
                     <div class="cart-item">
                         <img src="${item.image}" alt="${item.nom}" class="cart-item-img" onerror="this.src='https://via.placeholder.com/60'">
                         <div class="cart-item-details">
-                          
                             <div class="cart-item-price">${item.prix.toLocaleString()} F CFA</div>
                         </div>
                         <div class="cart-item-quantity">
@@ -901,7 +1027,42 @@
             }, 2000);
         }
 
-        // Générer les produits dans la grille
+        // ========== FONCTION VISIONNEUSE GRAND ECRAN ==========
+        function openImageViewer(imageUrl, productName) {
+            const modalViewer = document.getElementById('imageViewerModal');
+            const viewerImage = document.getElementById('viewerImage');
+            const viewerCaption = document.getElementById('viewerCaption');
+            
+            viewerImage.src = imageUrl;
+            viewerCaption.textContent = productName;
+            modalViewer.style.display = 'flex';
+            document.body.classList.add('modal-open');
+            
+            // Gestionnaire pour fermer avec la touche Echap
+            const escHandler = (e) => {
+                if (e.key === 'Escape') {
+                    closeImageViewer();
+                    document.removeEventListener('keydown', escHandler);
+                }
+            };
+            document.addEventListener('keydown', escHandler);
+            
+            // Sauvegarder le handler pour le retirer à la fermeture
+            modalViewer._escHandler = escHandler;
+        }
+        
+        function closeImageViewer() {
+            const modalViewer = document.getElementById('imageViewerModal');
+            modalViewer.style.display = 'none';
+            document.body.classList.remove('modal-open');
+            
+            if (modalViewer._escHandler) {
+                document.removeEventListener('keydown', modalViewer._escHandler);
+                delete modalViewer._escHandler;
+            }
+        }
+
+        // Générer les produits avec le bouton "Voir en grand"
         function genererProduits() {
             const grid = document.getElementById('produitsGrid');
             grid.innerHTML = '';
@@ -910,15 +1071,20 @@
                 card.className = 'produit-card';
                 card.innerHTML = `
                     <img src="${produit.image}" alt="${produit.nom}" class="produit-image" loading="lazy" onerror="this.src='https://via.placeholder.com/280x220?text=Parfum'">
-                   
                     <p class="prix">${produit.prix.toLocaleString()} F CFA</p>
-                    <button class="btn-commander" data-nom="${produit.nom}" data-prix="${produit.prix}" data-image="${produit.image}">
-                        <i class="fas fa-cart-plus"></i> Ajouter au panier
-                    </button>
+                    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                        <button class="btn-commander" data-nom="${produit.nom}" data-prix="${produit.prix}" data-image="${produit.image}">
+                            <i class="fas fa-cart-plus"></i> Ajouter
+                        </button>
+                        <button class="btn-voir-grand" data-image="${produit.image}" data-nom="${produit.nom}">
+                            <i class="fas fa-search-plus"></i> Voir en grand
+                        </button>
+                    </div>
                 `;
                 grid.appendChild(card);
             });
             
+            // Ajout au panier
             document.querySelectorAll('#produitsGrid .btn-commander').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
@@ -926,6 +1092,28 @@
                     const prix = parseInt(btn.getAttribute('data-prix'));
                     const image = btn.getAttribute('data-image');
                     ajouterAuPanier({ nom, prix, image });
+                });
+            });
+            
+            // Voir en grand
+            document.querySelectorAll('#produitsGrid .btn-voir-grand').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const imageUrl = btn.getAttribute('data-image');
+                    const nom = btn.getAttribute('data-nom');
+                    openImageViewer(imageUrl, nom);
+                });
+            });
+            
+            // Cliquer sur l'image elle-même pour voir en grand
+            document.querySelectorAll('#produitsGrid .produit-image').forEach((img, idx) => {
+                img.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const parentCard = img.closest('.produit-card');
+                    const voirBtn = parentCard.querySelector('.btn-voir-grand');
+                    const imageUrl = voirBtn.getAttribute('data-image');
+                    const nom = voirBtn.getAttribute('data-nom');
+                    openImageViewer(imageUrl, nom);
                 });
             });
         }
@@ -963,36 +1151,43 @@
         closeModal.addEventListener('click', () => modal.style.display = 'none');
         window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
         
-        // Commander via WhatsApp
-       // Commander via WhatsApp - Version avec encodage URL
-document.getElementById('commanderPanier').addEventListener('click', () => {
-    if (panier.length === 0) {
-        afficherToast('Votre panier est vide');
-        return;
-    }
-    
-    let message = "🛍️ *NOUVELLE COMMANDE ESTA SHOP* 🛍️%0A%0A";
-    let total = 0;
-    
-    panier.forEach((item, index) => {
-        // Encoder l'URL pour remplacer les espaces par %20
-        const encodedImageUrl = encodeURIComponent(item.image).replace(/%2F/g, '/');
-        const fullImageUrl = `https://esta-shop.netlify.app/${encodedImageUrl}`;
+        // Fermeture de la visionneuse
+        const viewerModal = document.getElementById('imageViewerModal');
+        const viewerCloseBtn = document.getElementById('viewerCloseBtn');
         
-        message += `*📦 Produit ${index + 1}:*%0A`;
-        message += `💰 Prix: ${item.prix.toLocaleString()} F CFA%0A`;
-        message += `🔢 Quantité: ${item.quantite}%0A`;
-        message += `💵 Total: ${(item.prix * item.quantite).toLocaleString()} F CFA%0A`;
-        message += `🖼️ Voir la photo: ${fullImageUrl}%0A%0A`;
-        total += item.prix * item.quantite;
-    });
-    
-    message += `💰 *TOTAL GÉNÉRAL: ${total.toLocaleString()} F CFA*%0A%0A`;
-    message += `✅ Merci de confirmer cette commande.`;
-    
-    const numeroWhatsApp = '+22961032423';
-    window.open(`https://wa.me/${numeroWhatsApp}?text=${message}`, '_blank');
-});
+        viewerCloseBtn.addEventListener('click', closeImageViewer);
+        viewerModal.addEventListener('click', (e) => {
+            if (e.target === viewerModal) closeImageViewer();
+        });
+        
+        // Commander via WhatsApp
+        document.getElementById('commanderPanier').addEventListener('click', () => {
+            if (panier.length === 0) {
+                afficherToast('Votre panier est vide');
+                return;
+            }
+            
+            let message = "🛍️ *NOUVELLE COMMANDE ESTA SHOP* 🛍️%0A%0A";
+            let total = 0;
+            
+            panier.forEach((item, index) => {
+                const encodedImageUrl = encodeURIComponent(item.image).replace(/%2F/g, '/');
+                const fullImageUrl = `https://esta-shop.netlify.app/${encodedImageUrl}`;
+                
+                message += `*📦 Produit ${index + 1}:*%0A`;
+                message += `💰 Prix: ${item.prix.toLocaleString()} F CFA%0A`;
+                message += `🔢 Quantité: ${item.quantite}%0A`;
+                message += `💵 Total: ${(item.prix * item.quantite).toLocaleString()} F CFA%0A`;
+                message += `🖼️ Voir la photo: ${fullImageUrl}%0A%0A`;
+                total += item.prix * item.quantite;
+            });
+            
+            message += `💰 *TOTAL GÉNÉRAL: ${total.toLocaleString()} F CFA*%0A%0A`;
+            message += `✅ Merci de confirmer cette commande.`;
+            
+            const numeroWhatsApp = '+22961032423';
+            window.open(`https://wa.me/${numeroWhatsApp}?text=${message}`, '_blank');
+        });
         
         // Carrousel
         const slides = document.getElementById('carouselSlides');
